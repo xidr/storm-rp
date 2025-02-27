@@ -1,16 +1,22 @@
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Profiling;
 using UnityEngine.Rendering;
 
 partial class CameraRenderer
 {
     partial void DrawUnsupportedShaders();
+
+    partial void DrawGizmos();
+
+    partial void PrepareForSceneWindow();
     
-    partial void DrawGizmos ();
-    
-    partial void PrepareForSceneWindow ();
+    partial void PrepareBuffer ();
 
 #if UNITY_EDITOR
+    
+    string SampleName { get; set; }
+    
     static ShaderTagId[] legacyShaderTagIds =
     {
         new ShaderTagId("Always"), new ShaderTagId("ForwardBase"), new ShaderTagId("PrepassBase"),
@@ -40,19 +46,34 @@ partial class CameraRenderer
         var filteringSettings = FilteringSettings.defaultValue;
         context.DrawRenderers(cullingResults, ref drawingSettings, ref filteringSettings);
     }
-    
-    partial void DrawGizmos () {
-        if (Handles.ShouldRenderGizmos()) {
+
+    partial void DrawGizmos()
+    {
+        if (Handles.ShouldRenderGizmos())
+        {
             context.DrawGizmos(camera, GizmoSubset.PreImageEffects);
             context.DrawGizmos(camera, GizmoSubset.PostImageEffects);
         }
     }
-    
-    partial void PrepareForSceneWindow () {
-        if (camera.cameraType == CameraType.SceneView) {
+
+    partial void PrepareForSceneWindow()
+    {
+        if (camera.cameraType == CameraType.SceneView)
+        {
             ScriptableRenderContext.EmitWorldGeometryForSceneView(camera);
         }
     }
+    
+    partial void PrepareBuffer () {
+        Profiler.BeginSample("Editor Only");
+        buffer.name = SampleName = camera.name;
+        Profiler.EndSample();
+    }
+    
+    
+#else
+
+	const string SampleName = bufferName;
 
 #endif
 }
