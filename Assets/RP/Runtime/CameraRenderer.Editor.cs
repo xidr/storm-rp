@@ -1,9 +1,14 @@
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
 
 partial class CameraRenderer
 {
     partial void DrawUnsupportedShaders();
+    
+    partial void DrawGizmos ();
+    
+    partial void PrepareForSceneWindow ();
 
 #if UNITY_EDITOR
     static ShaderTagId[] legacyShaderTagIds =
@@ -34,6 +39,19 @@ partial class CameraRenderer
 
         var filteringSettings = FilteringSettings.defaultValue;
         context.DrawRenderers(cullingResults, ref drawingSettings, ref filteringSettings);
+    }
+    
+    partial void DrawGizmos () {
+        if (Handles.ShouldRenderGizmos()) {
+            context.DrawGizmos(camera, GizmoSubset.PreImageEffects);
+            context.DrawGizmos(camera, GizmoSubset.PostImageEffects);
+        }
+    }
+    
+    partial void PrepareForSceneWindow () {
+        if (camera.cameraType == CameraType.SceneView) {
+            ScriptableRenderContext.EmitWorldGeometryForSceneView(camera);
+        }
     }
 
 #endif

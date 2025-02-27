@@ -17,6 +17,7 @@ public partial class CameraRenderer
         this.context = context;
         this.camera = camera;
 
+        PrepareForSceneWindow();
         if (!Cull())
         {
             return;
@@ -25,6 +26,7 @@ public partial class CameraRenderer
         Setup();
         DrawVisibleGeometry();
         DrawUnsupportedShaders();
+        DrawGizmos();
         Submit();
     }
 
