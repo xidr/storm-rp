@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Rendering;
 
-public class CameraRenderer
+public partial class CameraRenderer
 {
     static ShaderTagId unlitShaderTagId = new ShaderTagId("SRPDefaultUnlit");
     const string bufferName = "Render Camera";
@@ -24,6 +24,7 @@ public class CameraRenderer
 
         Setup();
         DrawVisibleGeometry();
+        DrawUnsupportedShaders();
         Submit();
     }
 
