@@ -81,3 +81,4 @@ public partial class CameraRenderer
         buffer.Clear();
     }
 }
+
