@@ -12,7 +12,7 @@ public partial class CameraRenderer
     CommandBuffer buffer = new CommandBuffer { name = bufferName };
     CullingResults cullingResults;
 
-    public void Render(ScriptableRenderContext context, Camera camera)
+    public void Render(ScriptableRenderContext context, Camera camera, bool useGPUInstancing)
     {
         this.context = context;
         this.camera = camera;
@@ -24,7 +24,7 @@ public partial class CameraRenderer
         }
 
         Setup();
-        DrawVisibleGeometry();
+        DrawVisibleGeometry(useGPUInstancing);
         DrawUnsupportedShaders();
         DrawGizmos();
         Submit();
@@ -51,10 +51,13 @@ public partial class CameraRenderer
         return false;
     }
 
-    void DrawVisibleGeometry()
+    void DrawVisibleGeometry(bool useGPUInstancing)
     {
         var sortingSettings = new SortingSettings(camera) { criteria = SortingCriteria.CommonOpaque };
-        var drawingSettings = new DrawingSettings(unlitShaderTagId, sortingSettings);
+        var drawingSettings = new DrawingSettings(unlitShaderTagId, sortingSettings)
+        {
+            enableInstancing = useGPUInstancing
+        };
         var filteringSettings = new FilteringSettings(RenderQueueRange.opaque);
 
         context.DrawRenderers(cullingResults, ref drawingSettings, ref filteringSettings);
