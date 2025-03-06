@@ -3,7 +3,9 @@ using UnityEngine.Rendering;
 
 public partial class CameraRenderer
 {
-    static ShaderTagId unlitShaderTagId = new ShaderTagId("SRPDefaultUnlit");
+    static ShaderTagId unlitShaderTagId = new ShaderTagId("SRPDefaultUnlit"),
+        litShaderTagId = new ShaderTagId("CustomLit");
+
     const string bufferName = "Render Camera";
 
     ScriptableRenderContext context;
@@ -58,6 +60,8 @@ public partial class CameraRenderer
         {
             enableInstancing = useGPUInstancing
         };
+        drawingSettings.SetShaderPassName(1, litShaderTagId);
+        
         var filteringSettings = new FilteringSettings(RenderQueueRange.opaque);
 
         context.DrawRenderers(cullingResults, ref drawingSettings, ref filteringSettings);
@@ -84,4 +88,3 @@ public partial class CameraRenderer
         buffer.Clear();
     }
 }
-
