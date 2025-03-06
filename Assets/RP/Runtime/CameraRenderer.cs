@@ -13,6 +13,8 @@ public partial class CameraRenderer
     Camera camera;
     CommandBuffer buffer = new CommandBuffer { name = bufferName };
     CullingResults cullingResults;
+    
+    Lighting lighting = new Lighting();
 
     public void Render(ScriptableRenderContext context, Camera camera, bool useGPUInstancing)
     {
@@ -26,6 +28,7 @@ public partial class CameraRenderer
         }
 
         Setup();
+        lighting.Setup(context, cullingResults);
         DrawVisibleGeometry(useGPUInstancing);
         DrawUnsupportedShaders();
         DrawGizmos();
