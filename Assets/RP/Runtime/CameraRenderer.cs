@@ -77,7 +77,7 @@ public partial class CameraRenderer
 
         context.DrawRenderers(cullingResults, ref drawingSettings, ref filteringSettings);
     }
-
+ 
     void Submit()
     {
         buffer.EndSample(SampleName);
