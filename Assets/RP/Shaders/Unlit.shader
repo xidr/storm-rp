@@ -34,4 +34,6 @@ Shader "ReigniteRP/Unlit"
             ENDHLSL
         }
     }
+
+    CustomEditor "CustomShaderGUI"
 }

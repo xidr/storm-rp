@@ -18,3 +18,4 @@ float3 GetLighting (Surface surface, BRDF brdf) {
 }
 
 #endif
+
