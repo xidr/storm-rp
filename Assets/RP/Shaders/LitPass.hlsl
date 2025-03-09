@@ -3,6 +3,7 @@
 
 #include "../ShaderLibrary/Common.hlsl"
 #include "../ShaderLibrary/Surface.hlsl"
+#include "../ShaderLibrary/Shadows.hlsl"
 #include "../ShaderLibrary/Light.hlsl"
 #include "../ShaderLibrary/BRDF.hlsl"
 #include "../ShaderLibrary/Lighting.hlsl"
@@ -30,6 +31,7 @@ struct Varyings {
     float3 positionWS : VAR_POSITION;
     float2 baseUV : VAR_BASE_UV;
     float3 normalWS : VAR_NORMAL;
+    float4 pureCS : VAR_BASE_UVdfbgh2;
     UNITY_VERTEX_INPUT_INSTANCE_ID
 };
 
@@ -42,6 +44,8 @@ Varyings LitPassVertex (Attributes input){
     float4 baseST = UNITY_ACCESS_INSTANCED_PROP(UnityPerMaterial, _BaseMap_ST);
     output.baseUV = input.baseUV * baseST.xy + baseST.zw;
     output.normalWS = TransformObjectToWorldNormal(input.normalOS);
+
+    output.pureCS = output.positionCS;
     return output;
 }
 
@@ -57,6 +61,7 @@ float4 LitPassFragment (Varyings input) : SV_TARGET {
     #endif
     
     Surface surface;
+    surface.position = input.positionWS;
     surface.normal = normalize(input.normalWS);
     surface.viewDirection = normalize(_WorldSpaceCameraPos - input.positionWS);
     surface.color = base.rgb;
@@ -71,6 +76,12 @@ float4 LitPassFragment (Varyings input) : SV_TARGET {
     BRDF brdf = GetBRDF(surface);
     #endif
     float3 color = GetLighting(surface, brdf);
+
+
+    // return input.positionCS;
+    // return input.pureCS;
+
+    // return input.pureCS / input.pureCS.w;
     return float4(color, surface.alpha);
 }
 
