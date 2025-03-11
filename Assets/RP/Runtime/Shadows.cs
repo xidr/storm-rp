@@ -96,9 +96,6 @@ public class Shadows
         cullingResults.ComputeDirectionalShadowMatricesAndCullingPrimitives(light.visibleLightIndex, 0, 1, Vector3.zero,
             tileSize, 0f, out Matrix4x4 viewMatrix, out Matrix4x4 projectionMatrix, out ShadowSplitData splitData);
         shadowSettings.splitData = splitData;
-        var matrix = projectionMatrix * viewMatrix;
-        // Debug.Log(projectionMatrix * viewMatrix);
-        // Debug.Log(matrix.m30);
         var offset = SetTileViewport(index, split, tileSize);
         dirShadowMatrices[index] = ConvertToAtlasMatrix(projectionMatrix * viewMatrix, offset, split);
         buffer.SetViewProjectionMatrices(viewMatrix, projectionMatrix);
@@ -120,9 +117,7 @@ public class Shadows
             m.m22 = -m.m22;
             m.m23 = -m.m23;
         }
-        // Debug.Log(m);
-        // Debug.Log(m.m30);
-        // Debug.Log(m.m33);
+
         float scale = 1f / split;
 
         Matrix4x4 M_ClipToUV = new Matrix4x4()
@@ -135,7 +130,6 @@ public class Shadows
             m13 = 0.5f,
             m23 = 0.5f,
         };
-        // Debug.Log(M_ClipToUV);
 
         Matrix4x4 M_UVToTile = new Matrix4x4()
         {
@@ -147,9 +141,6 @@ public class Shadows
             m13 = offset.y * 0.5f,
             m23 = 0,
         };
-        
-        Debug.Log(M_UVToTile);
-        
         
         var the_correct_matrix = M_ClipToUV * m;
         the_correct_matrix = M_UVToTile * the_correct_matrix;
