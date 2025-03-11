@@ -15,7 +15,9 @@ float3 GetLighting (Surface surfaceWS, BRDF brdf) {
     for (int i = 0; i < GetDirectionalLightCount(); i++) {
         Light light = GetDirectionalLight(i, surfaceWS, shadowData);
         color += GetLighting(surfaceWS, brdf, light);
+        // color = light.attenuation;
     }
+    // return shadowData.strength;
     return color;
 }
 

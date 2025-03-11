@@ -30,7 +30,9 @@ public class ShadowSettings {
         cascadeRatio3 = 0.5f
     };
     
-    [Min(0f)]
+    [Min(0.001f)]
     public float maxDistance = 100f;
+    [Range(0.001f, 1f)]
+    public float distanceFade = 0.1f;
     
 }
