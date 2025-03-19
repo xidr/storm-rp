@@ -21,5 +21,6 @@ MonoBehaviour:
       cascadeRatio1: 0.1
       cascadeRatio2: 0.25
       cascadeRatio3: 0.5
-    maxDistance: 13.2
-    distanceFade: 0.2
+      cascadeFade: 0.1
+    maxDistance: 100
+    distanceFade: 0.11
