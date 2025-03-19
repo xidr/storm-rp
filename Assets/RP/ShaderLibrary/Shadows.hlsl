@@ -36,7 +36,7 @@ ShadowData GetShadowData (Surface surfaceWS) {
         if (distanceSqr < sphere.w) {
 			if (i == _CascadeCount - 1) {
 				data.strength *= FadedShadowStrength(
-					distanceSqr, 1.0 / sphere.w, _ShadowDistanceFade.z
+					distanceSqr, _CascadeData[i].x, _ShadowDistanceFade.z
 				);
 			}
             break;
@@ -61,15 +61,16 @@ float SampleDirectionalShadowAtlas (float3 positionSTS) {
     return SAMPLE_TEXTURE2D_SHADOW(_DirectionalShadowAtlas, SHADOW_SAMPLER, positionSTS);
 }
 
-float GetDirectionalShadowAttenuation (DirectionalShadowData data, Surface surfaceWS) {
-    if (data.strength <= 0.0) {
+float GetDirectionalShadowAttenuation (DirectionalShadowData directional, ShadowData global, Surface surfaceWS) {
+    if (directional.strength <= 0.0) {
         return 1.0;
     }
+    float3 normalBias = surfaceWS.normal * _CascadeData[global.cascadeIndex].y;
     float3 positionSTS = mul(
-        _DirectionalShadowMatrices[data.tileIndex],
-        float4(surfaceWS.position, 1.0)
+        _DirectionalShadowMatrices[directional.tileIndex],
+        float4(surfaceWS.position + normalBias, 1.0)
     ).xyz;
-    float shadow = lerp(1, SampleDirectionalShadowAtlas(positionSTS), data.strength);
+    float shadow = lerp(1, SampleDirectionalShadowAtlas(positionSTS), directional.strength);
     return shadow;
 }
 

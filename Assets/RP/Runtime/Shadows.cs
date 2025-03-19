@@ -14,8 +14,7 @@ public class Shadows
         shadowDistanceFadeId = Shader.PropertyToID("_ShadowDistanceFade");
 
     static Matrix4x4[] dirShadowMatrices = new Matrix4x4[maxShadowedDirectionalLightCount * maxCascades];
-    static Vector4[] cascadeCullingSpheres = new Vector4[maxCascades],
-        cascadeData = new Vector4[maxCascades];
+    static Vector4[] cascadeCullingSpheres = new Vector4[maxCascades], cascadeData = new Vector4[maxCascades];
 
     struct ShadowedDirectionalLight
     {
@@ -97,8 +96,7 @@ public class Shadows
         buffer.SetGlobalMatrixArray(dirShadowMatricesId, dirShadowMatrices);
         float f = 1f - settings.directional.cascadeFade;
         buffer.SetGlobalVector(shadowDistanceFadeId,
-            new Vector4(1f / settings.maxDistance, 1f / settings.distanceFade,
-                1f / (1f - f * f)));
+            new Vector4(1f / settings.maxDistance, 1f / settings.distanceFade, 1f / (1f - f * f)));
         buffer.EndSample(bufferName);
         ExecuteBuffer();
     }
@@ -134,11 +132,14 @@ public class Shadows
             context.DrawShadows(ref shadowSettings);
         }
     }
-    
-    void SetCascadeData (int index, Vector4 cullingSphere, float tileSize) {
-        cascadeData[index].x = 1f / cullingSphere.w;
+
+    void SetCascadeData(int index, Vector4 cullingSphere, float tileSize)
+    {
+        float texelSize = 2f * cullingSphere.w / tileSize;
         cullingSphere.w *= cullingSphere.w;
         cascadeCullingSpheres[index] = cullingSphere;
+        //cascadeData[index].x = 1f / cullingSphere.w;
+        cascadeData[index] = new Vector4(1f / cullingSphere.w, texelSize);
     }
 
     Vector2 SetTileViewport(int index, int split, float tileSize)
