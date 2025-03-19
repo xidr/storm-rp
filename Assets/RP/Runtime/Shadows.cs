@@ -19,6 +19,7 @@ public class Shadows
     struct ShadowedDirectionalLight
     {
         public int visibleLightIndex;
+        public float slopeScaleBias;
     }
 
     CommandBuffer buffer = new CommandBuffer { name = bufferName };
@@ -55,7 +56,7 @@ public class Shadows
     }
 
 //
-    public Vector2 ReserveDirectionalShadows(Light light, int visibleLightIndex)
+    public Vector3 ReserveDirectionalShadows(Light light, int visibleLightIndex)
     {
         // Debug.Log(ShadowedDirectionalLightCount);
 
@@ -63,12 +64,14 @@ public class Shadows
             light.shadowStrength > 0f && cullingResults.GetShadowCasterBounds(visibleLightIndex, out Bounds b))
         {
             ShadowedDirectionalLights[ShadowedDirectionalLightCount] =
-                new ShadowedDirectionalLight { visibleLightIndex = visibleLightIndex };
-            return new Vector2(light.shadowStrength,
-                settings.directional.cascadeCount * ShadowedDirectionalLightCount++);
+                new ShadowedDirectionalLight { visibleLightIndex = visibleLightIndex,
+                    slopeScaleBias = light.shadowBias};
+            return new Vector3(light.shadowStrength,
+                settings.directional.cascadeCount * ShadowedDirectionalLightCount++,
+                light.shadowNormalBias);
         }
 
-        return Vector2.zero;
+        return Vector3.zero;
     }
 
     void RenderDirectionalShadows()
@@ -128,8 +131,10 @@ public class Shadows
             dirShadowMatrices[tileIndex] = ConvertToAtlasMatrix(projectionMatrix * viewMatrix, offset, split);
 
             buffer.SetViewProjectionMatrices(viewMatrix, projectionMatrix);
+            buffer.SetGlobalDepthBias(0f, light.slopeScaleBias);
             ExecuteBuffer();
             context.DrawShadows(ref shadowSettings);
+            buffer.SetGlobalDepthBias(0f, 0f);
         }
     }
 
@@ -139,7 +144,7 @@ public class Shadows
         cullingSphere.w *= cullingSphere.w;
         cascadeCullingSpheres[index] = cullingSphere;
         //cascadeData[index].x = 1f / cullingSphere.w;
-        cascadeData[index] = new Vector4(1f / cullingSphere.w, texelSize);
+        cascadeData[index] = new Vector4(1f / cullingSphere.w, texelSize * 1.4142136f);
     }
 
     Vector2 SetTileViewport(int index, int split, float tileSize)
