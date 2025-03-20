@@ -16,7 +16,8 @@ MonoBehaviour:
   useSRPBatcher: 1
   shadows:
     directional:
-      atlasSize: 1024
+      atlasSize: 2048
+      filter: 1
       cascadeCount: 4
       cascadeRatio1: 0.1
       cascadeRatio2: 0.25
