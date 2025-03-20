@@ -16,6 +16,11 @@ public class Shadows
 
     static string[] directionalFilterKeywords = { "_DIRECTIONAL_PCF3", "_DIRECTIONAL_PCF5", "_DIRECTIONAL_PCF7", };
 
+    static string[] cascadeBlendKeywords = {
+        "_CASCADE_BLEND_SOFT",
+        "_CASCADE_BLEND_DITHER"
+    };
+    
     static Matrix4x4[] dirShadowMatrices = new Matrix4x4[maxShadowedDirectionalLightCount * maxCascades];
     static Vector4[] cascadeCullingSpheres = new Vector4[maxCascades], cascadeData = new Vector4[maxCascades];
 
@@ -106,7 +111,12 @@ public class Shadows
         float f = 1f - settings.directional.cascadeFade;
         buffer.SetGlobalVector(shadowDistanceFadeId,
             new Vector4(1f / settings.maxDistance, 1f / settings.distanceFade, 1f / (1f - f * f)));
-        SetKeywords();
+        SetKeywords(
+            directionalFilterKeywords, (int)settings.directional.filter - 1
+        );
+        SetKeywords(
+            cascadeBlendKeywords, (int)settings.directional.cascadeBlend - 1
+        );
         buffer.SetGlobalVector(shadowAtlasSizeId, new Vector4(atlasSize, 1f / atlasSize));
         buffer.EndSample(bufferName);
         ExecuteBuffer();
@@ -204,18 +214,18 @@ public class Shadows
         return the_correct_matrix;
     }
 
-    void SetKeywords()
+    void SetKeywords(string[] keywords, int enabledIndex)
     {
-        int enabledIndex = (int)settings.directional.filter - 1;
-        for (int i = 0; i < directionalFilterKeywords.Length; i++)
+        // int enabledIndex = (int)settings.directional.filter - 1;
+        for (int i = 0; i < keywords.Length; i++)
         {
             if (i == enabledIndex)
             {
-                buffer.EnableShaderKeyword(directionalFilterKeywords[i]);
+                buffer.EnableShaderKeyword(keywords[i]);
             }
             else
             {
-                buffer.DisableShaderKeyword(directionalFilterKeywords[i]);
+                buffer.DisableShaderKeyword(keywords[i]);
             }
         }
     }
