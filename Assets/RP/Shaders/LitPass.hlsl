@@ -6,10 +6,25 @@
 #include "../ShaderLibrary/Shadows.hlsl"
 #include "../ShaderLibrary/Light.hlsl"
 #include "../ShaderLibrary/BRDF.hlsl"
+#include "../ShaderLibrary/GI.hlsl"
 #include "../ShaderLibrary/Lighting.hlsl"
 
 TEXTURE2D(_BaseMap);
 SAMPLER(sampler_BaseMap);
+
+#if defined(LIGHTMAP_ON)
+    #define GI_ATTRIBUTE_DATA float2 lightMapUV : TEXCOORD1;
+    #define GI_VARYINGS_DATA float2 lightMapUV : VAR_LIGHT_MAP_UV;
+    #define TRANSFER_GI_DATA(input, output) \
+        output.lightMapUV = input.lightMapUV * \
+        unity_LightmapST.xy + unity_LightmapST.zw;
+    #define GI_FRAGMENT_DATA(input) input.lightMapUV
+#else
+    #define GI_ATTRIBUTE_DATA
+    #define GI_VARYINGS_DATA
+    #define TRANSFER_GI_DATA(input, output)
+    #define GI_FRAGMENT_DATA(input) 0.0
+#endif
 
 UNITY_INSTANCING_BUFFER_START(UnityPerMaterial)
     UNITY_DEFINE_INSTANCED_PROP(float4, _BaseMap_ST)
@@ -23,6 +38,7 @@ struct Attributes {
     float3 positionOS : POSITION;
     float2 baseUV : TEXCOORD0;
     float3 normalOS : NORMAL;
+    GI_ATTRIBUTE_DATA
     UNITY_VERTEX_INPUT_INSTANCE_ID
 };
 
@@ -32,6 +48,7 @@ struct Varyings {
     float2 baseUV : VAR_BASE_UV;
     float3 normalWS : VAR_NORMAL;
     float4 pureCS : VAR_BASE_UVdfbgh2;
+    GI_VARYINGS_DATA
     UNITY_VERTEX_INPUT_INSTANCE_ID
 };
 
@@ -39,6 +56,7 @@ Varyings LitPassVertex (Attributes input){
     Varyings output;
     UNITY_SETUP_INSTANCE_ID(input);
     UNITY_TRANSFER_INSTANCE_ID(input, output);
+    TRANSFER_GI_DATA(input, output);
     output.positionWS = TransformObjectToWorld(input.positionOS);
     output.positionCS = TransformWorldToHClip(output.positionWS);
     float4 baseST = UNITY_ACCESS_INSTANCED_PROP(UnityPerMaterial, _BaseMap_ST);
@@ -77,7 +95,8 @@ float4 LitPassFragment (Varyings input) : SV_TARGET {
     #else
     BRDF brdf = GetBRDF(surface);
     #endif
-    float3 color = GetLighting(surface, brdf);
+    GI gi = GetGI(GI_FRAGMENT_DATA(input), surface);
+    float3 color = GetLighting(surface, brdf, gi);
 
 
     // return input.positionCS;
