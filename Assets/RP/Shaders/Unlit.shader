@@ -16,6 +16,11 @@ Shader "ReigniteRP/Unlit"
     }
     SubShader
     {
+        HLSLINCLUDE
+		#include "../ShaderLibrary/Common.hlsl"
+		#include "UnlitInput.hlsl"
+		ENDHLSL
+        
         Tags
         {
             
