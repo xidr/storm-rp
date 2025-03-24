@@ -2,6 +2,8 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
 
+#if UNITY_EDITOR
+
 public class CustomShaderGUI : ShaderGUI
 {
     MaterialEditor editor;
@@ -232,3 +234,5 @@ public class CustomShaderGUI : ShaderGUI
         }
     }
 }
+
+#endif

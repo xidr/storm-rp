@@ -1,5 +1,6 @@
 using UnityEngine;
 
+
 [DisallowMultipleComponent]
 public class PerObjectMaterialProperties : MonoBehaviour
 {
@@ -34,3 +35,4 @@ public class PerObjectMaterialProperties : MonoBehaviour
         OnValidate();
     }
 }
+
