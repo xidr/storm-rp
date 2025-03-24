@@ -92,6 +92,8 @@ float4 LitPassFragment (Varyings input) : SV_TARGET {
     // return input.pureCS;
 
     // return input.pureCS / input.pureCS.w;
+
+    color += GetEmission(input.baseUV);
     return float4(color, surface.alpha);
 }
 
