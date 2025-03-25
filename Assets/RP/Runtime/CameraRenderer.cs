@@ -68,8 +68,10 @@ public partial class CameraRenderer
         var drawingSettings = new DrawingSettings(unlitShaderTagId, sortingSettings)
         {
             enableInstancing = useGPUInstancing,
-            perObjectData = PerObjectData.Lightmaps | PerObjectData.ShadowMask | PerObjectData.LightProbe |
-                            PerObjectData.LightProbeProxyVolume
+            perObjectData = PerObjectData.Lightmaps | PerObjectData.ShadowMask | 
+                            PerObjectData.LightProbe | PerObjectData.OcclusionProbe |
+                            PerObjectData.LightProbeProxyVolume |
+                            PerObjectData.OcclusionProbeProxyVolume
         };
         drawingSettings.SetShaderPassName(1, litShaderTagId);
         

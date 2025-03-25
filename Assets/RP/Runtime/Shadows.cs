@@ -77,13 +77,21 @@ public class Shadows
         // Debug.Log(ShadowedDirectionalLightCount);
 
         if (ShadowedDirectionalLightCount < maxShadowedDirectionalLightCount && light.shadows != LightShadows.None &&
-            light.shadowStrength > 0f && cullingResults.GetShadowCasterBounds(visibleLightIndex, out Bounds b))
+            light.shadowStrength > 0f
+            // && cullingResults.GetShadowCasterBounds(visibleLightIndex, out Bounds b)
+           )
         {
             LightBakingOutput lightBaking = light.bakingOutput;
             if (lightBaking.lightmapBakeType == LightmapBakeType.Mixed &&
                 lightBaking.mixedLightingMode == MixedLightingMode.Shadowmask)
             {
                 useShadowMask = true;
+            }
+            
+            if (!cullingResults.GetShadowCasterBounds(
+                    visibleLightIndex, out Bounds b
+                )) {
+                return new Vector3(-light.shadowStrength, 0f, 0f);
             }
 
             ShadowedDirectionalLights[ShadowedDirectionalLightCount] = new ShadowedDirectionalLight
