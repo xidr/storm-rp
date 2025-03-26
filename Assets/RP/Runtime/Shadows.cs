@@ -18,7 +18,7 @@ public class Shadows
 
     static string[] cascadeBlendKeywords = { "_CASCADE_BLEND_SOFT", "_CASCADE_BLEND_DITHER" };
 
-    static string[] shadowMaskKeywords = { "_SHADOW_MASK_DISTANCE" };
+    static string[] shadowMaskKeywords = { "_SHADOW_MASK_ALWAYS", "_SHADOW_MASK_DISTANCE"};
 
     static Matrix4x4[] dirShadowMatrices = new Matrix4x4[maxShadowedDirectionalLightCount * maxCascades];
     static Vector4[] cascadeCullingSpheres = new Vector4[maxCascades], cascadeData = new Vector4[maxCascades];
@@ -66,7 +66,10 @@ public class Shadows
         }
 
         buffer.BeginSample(bufferName);
-        SetKeywords(shadowMaskKeywords, useShadowMask ? 0 : -1);
+        SetKeywords(shadowMaskKeywords, useShadowMask ?
+            QualitySettings.shadowmaskMode == ShadowmaskMode.Shadowmask ? 0 : 1 :
+            -1
+        );
         buffer.EndSample(bufferName);
         ExecuteBuffer();
     }
