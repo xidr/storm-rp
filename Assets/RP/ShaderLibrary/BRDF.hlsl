@@ -4,34 +4,40 @@
 #define MIN_REFLECTIVITY 0.04
 
 
-struct BRDF {
+struct BRDF
+{
     float3 diffuse;
     float3 specular;
     float roughness;
+    float perceptualRoughness;
 };
 
 
-float OneMinusReflectivity (float metallic) {
+float OneMinusReflectivity(float metallic)
+{
     float range = 1.0 - MIN_REFLECTIVITY;
     return range - metallic * range;
 }
 
-BRDF GetBRDF (Surface surface, bool applyAlphaToDiffuse = false) {
+BRDF GetBRDF(Surface surface, bool applyAlphaToDiffuse = false)
+{
     BRDF brdf;
     float oneMinusReflectivity = OneMinusReflectivity(surface.metallic);
     brdf.diffuse = surface.color * oneMinusReflectivity;
-    if (applyAlphaToDiffuse) {
+    if (applyAlphaToDiffuse)
+    {
         brdf.diffuse *= surface.alpha;
     }
     brdf.specular = lerp(MIN_REFLECTIVITY, surface.color, surface.metallic);
-    float perceptualRoughness =
+    brdf.perceptualRoughness =
         PerceptualSmoothnessToPerceptualRoughness(surface.smoothness);
-    brdf.roughness = PerceptualRoughnessToRoughness(perceptualRoughness);
+    brdf.roughness = PerceptualRoughnessToRoughness(brdf.perceptualRoughness);
     return brdf;
 }
 
 
-float SpecularStrength (Surface surface, BRDF brdf, Light light) {
+float SpecularStrength(Surface surface, BRDF brdf, Light light)
+{
     float3 h = SafeNormalize(light.direction + surface.viewDirection);
     float nh2 = Square(saturate(dot(surface.normal, h)));
     float lh2 = Square(saturate(dot(light.direction, h)));
@@ -41,8 +47,18 @@ float SpecularStrength (Surface surface, BRDF brdf, Light light) {
     return r2 / (d2 * max(0.1, lh2) * normalization);
 }
 
-float3 DirectBRDF (Surface surface, BRDF brdf, Light light) {
+float3 DirectBRDF(Surface surface, BRDF brdf, Light light)
+{
     return SpecularStrength(surface, brdf, light) * brdf.specular + brdf.diffuse;
+}
+
+float3 IndirectBRDF(
+    Surface surface, BRDF brdf, float3 diffuse, float3 specular
+)
+{
+    float3 reflection = specular * brdf.specular;
+    reflection /= brdf.roughness * brdf.roughness + 1.0;
+    return diffuse * brdf.diffuse + reflection;;
 }
 
 
