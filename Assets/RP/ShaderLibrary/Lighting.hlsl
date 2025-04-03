@@ -20,6 +20,12 @@ float3 GetLighting (Surface surfaceWS, BRDF brdf, GI gi) {
         color += GetLighting(surfaceWS, brdf, light);
         // color = light.attenuation;
     }
+
+    
+    for (int j = 0; j < GetOtherLightCount(); j++) {
+        Light light = GetOtherLight(j, surfaceWS, shadowData);
+        color += GetLighting(surfaceWS, brdf, light);
+    }
     // return shadowData.strength;
     return color;
 }
