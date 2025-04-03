@@ -5,6 +5,7 @@ Shader "ReigniteRP/Lit"
         _BaseMap("Texture", 2D) = "white" {}
         _BaseColor("Color", Color) = (0.5, 0.5, 0.5, 1.0)
     	
+    	[Toggle(_NORMAL_MAP)] _NormalMapToggle ("Normal Map", Float) = 0
 	    [NoScaleOffset] _NormalMap("Normals", 2D) = "bump" {}
 		_NormalScale("Normal Scale", Range(0, 1)) = 1
         
@@ -58,6 +59,9 @@ Shader "ReigniteRP/Lit"
             
             HLSLPROGRAM
             #pragma target 3.5
+
+            #pragma shader_feature _NORMAL_MAP
+            
             #pragma shader_feature _RECEIVE_SHADOWS
             #pragma shader_feature _CLIPPING
             #pragma shader_feature _PREMULTIPLY_ALPHA
