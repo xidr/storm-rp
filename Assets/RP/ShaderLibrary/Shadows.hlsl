@@ -36,6 +36,11 @@ struct ShadowMask {
     float4 shadows;
 };
 
+struct OtherShadowData {
+    float strength;
+    int shadowMaskChannel;
+};
+
 struct ShadowData {
     int cascadeIndex;
     float cascadeBlend;
@@ -171,6 +176,25 @@ float GetCascadedShadow (DirectionalShadowData directional, ShadowData global, S
         shadow = lerp(
             FilterDirectionalShadow(positionSTS), shadow, global.cascadeBlend
         );
+    }
+    return shadow;
+}
+
+float GetOtherShadowAttenuation (
+    OtherShadowData other, ShadowData global, Surface surfaceWS
+) {
+    #if !defined(_RECEIVE_SHADOWS)
+    return 1.0;
+    #endif
+	
+    float shadow;
+    if (other.strength > 0.0) {
+        shadow = GetBakedShadow(
+            global.shadowMask, other.shadowMaskChannel, other.strength
+        );
+    }
+    else {
+        shadow = 1.0;
     }
     return shadow;
 }
