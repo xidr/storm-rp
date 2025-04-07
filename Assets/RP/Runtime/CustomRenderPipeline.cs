@@ -6,15 +6,17 @@ public partial class CustomRenderPipeline : RenderPipeline
 {
     CameraRenderer renderer = new CameraRenderer();
 
-    bool useGPUInstancing;
+    bool useGPUInstancing, useLightsPerObject;
     ShadowSettings shadowSettings;
 
-    public CustomRenderPipeline(bool useGPUInstancing, bool useSRPBatcher, ShadowSettings shadowSettings)
+    public CustomRenderPipeline(bool useGPUInstancing, bool useSRPBatcher,
+        bool useLightsPerObject, ShadowSettings shadowSettings)
     {
         this.useGPUInstancing = useGPUInstancing;
         GraphicsSettings.useScriptableRenderPipelineBatching = useSRPBatcher;
         GraphicsSettings.lightsUseLinearIntensity = true;
         this.shadowSettings = shadowSettings;
+        this.useLightsPerObject = useLightsPerObject;
         
         InitializeForEditor();
     }
@@ -28,7 +30,7 @@ public partial class CustomRenderPipeline : RenderPipeline
         for (int i = 0; i < cameras.Count; i++)
         {
             renderer.Render(context, cameras[i], useGPUInstancing,
-                shadowSettings);
+                useLightsPerObject, shadowSettings);
         }
     }
 }
