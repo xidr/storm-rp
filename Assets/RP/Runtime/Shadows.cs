@@ -11,6 +11,7 @@ public class Shadows
         dirShadowMatricesId = Shader.PropertyToID("_DirectionalShadowMatrices"),
         otherShadowAtlasId = Shader.PropertyToID("_OtherShadowAtlas"),
         otherShadowMatricesId = Shader.PropertyToID("_OtherShadowMatrices"),
+        otherShadowTilesId = Shader.PropertyToID("_OtherShadowTiles"),
         cascadeCountId = Shader.PropertyToID("_CascadeCount"),
         cascadeCullingSpheresId = Shader.PropertyToID("_CascadeCullingSpheres"),
         cascadeDataId = Shader.PropertyToID("_CascadeData"),
@@ -32,7 +33,8 @@ public class Shadows
 
     static Matrix4x4[] dirShadowMatrices = new Matrix4x4[maxShadowedDirectionalLightCount * maxCascades],
         otherShadowMatrices = new Matrix4x4[maxShadowedOtherLightCount];
-    static Vector4[] cascadeCullingSpheres = new Vector4[maxCascades], cascadeData = new Vector4[maxCascades];
+    static Vector4[] cascadeCullingSpheres = new Vector4[maxCascades], cascadeData = new Vector4[maxCascades],
+        otherShadowTiles = new Vector4[maxShadowedOtherLightCount];
 
     Vector4 atlasSizes;
     
@@ -196,6 +198,12 @@ public class Shadows
         // return new Vector4(0f, 0f, 0f, -1f);
     }
     
+    void SetOtherTileData (int index, float bias) {
+        Vector4 data = Vector4.zero;
+        data.w = bias;
+        otherShadowTiles[index] = data;
+    }
+    
     void RenderSpotShadows (int index, int split, int tileSize) {
         ShadowedOtherLight light = shadowedOtherLights[index];
         var shadowSettings = new ShadowDrawingSettings(
@@ -207,6 +215,10 @@ public class Shadows
             out Matrix4x4 projectionMatrix, out ShadowSplitData splitData
         );
         shadowSettings.splitData = splitData;
+        float texelSize = 2f / (tileSize * projectionMatrix.m00);
+        float filterSize = texelSize * ((float)settings.other.filter + 1f);
+        float bias = light.normalBias * filterSize * 1.4142136f;
+        SetOtherTileData(index, bias);
         otherShadowMatrices[index] = ConvertToAtlasMatrix(
             projectionMatrix * viewMatrix,
             SetTileViewport(index, split, tileSize), split
@@ -319,6 +331,7 @@ public class Shadows
         //);
         //buffer.SetGlobalVectorArray(cascadeDataId, cascadeData);
         buffer.SetGlobalMatrixArray(otherShadowMatricesId, otherShadowMatrices);
+        buffer.SetGlobalVectorArray(otherShadowTilesId, otherShadowTiles);
         SetKeywords(
             otherFilterKeywords, (int)settings.other.filter - 1
         );

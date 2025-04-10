@@ -27,3 +27,6 @@ MonoBehaviour:
       cascadeBlend: 2
     maxDistance: 10
     distanceFade: 0.11
+    other:
+      atlasSize: 1024
+      filter: 2

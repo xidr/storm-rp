@@ -42,6 +42,7 @@ CBUFFER_START(_CustomShadows)
     float4 _CascadeData[MAX_CASCADE_COUNT];
     float4x4 _DirectionalShadowMatrices[MAX_SHADOWED_DIRECTIONAL_LIGHT_COUNT * MAX_CASCADE_COUNT];
     float4x4 _OtherShadowMatrices[MAX_SHADOWED_OTHER_LIGHT_COUNT];
+    float4 _OtherShadowTiles[MAX_SHADOWED_OTHER_LIGHT_COUNT];
     float4 _ShadowAtlasSize;
     float4 _ShadowDistanceFade;
 CBUFFER_END
@@ -56,6 +57,8 @@ struct OtherShadowData {
     float strength;
     int tileIndex;
     int shadowMaskChannel;
+    float3 lightPositionWS;
+    float3 spotDirectionWS;
 };
 
 struct ShadowData {
@@ -224,7 +227,10 @@ float GetCascadedShadow (DirectionalShadowData directional, ShadowData global, S
 float GetOtherShadow (
     OtherShadowData other, ShadowData global, Surface surfaceWS
 ) {
-    float3 normalBias = surfaceWS.interpolatedNormal * 0.0;
+    float4 tileData = _OtherShadowTiles[other.tileIndex];
+    float3 surfaceToLight = other.lightPositionWS - surfaceWS.position;
+    float distanceToLightPlane = dot(surfaceToLight, other.spotDirectionWS);
+    float3 normalBias = surfaceWS.interpolatedNormal * (distanceToLightPlane * tileData.w);
     float4 positionSTS = mul(
         _OtherShadowMatrices[other.tileIndex],
         float4(surfaceWS.position + normalBias, 1.0)
