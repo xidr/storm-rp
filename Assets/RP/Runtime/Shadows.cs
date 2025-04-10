@@ -198,8 +198,12 @@ public class Shadows
         // return new Vector4(0f, 0f, 0f, -1f);
     }
     
-    void SetOtherTileData (int index, float bias) {
-        Vector4 data = Vector4.zero;
+    void SetOtherTileData (int index, Vector2 offset, float scale, float bias) {
+        float border = atlasSizes.w * 0.5f;
+        Vector4 data;
+        data.x = offset.x * scale + border;
+        data.y = offset.y * scale + border;
+        data.z = scale - border - border;
         data.w = bias;
         otherShadowTiles[index] = data;
     }
@@ -218,10 +222,12 @@ public class Shadows
         float texelSize = 2f / (tileSize * projectionMatrix.m00);
         float filterSize = texelSize * ((float)settings.other.filter + 1f);
         float bias = light.normalBias * filterSize * 1.4142136f;
-        SetOtherTileData(index, bias);
+        Vector2 offset = SetTileViewport(index, split, tileSize);
+        float tileScale = 1f / split;
+        SetOtherTileData(index, offset, tileScale, bias);
         otherShadowMatrices[index] = ConvertToAtlasMatrix(
             projectionMatrix * viewMatrix,
-            SetTileViewport(index, split, tileSize), split
+            offset, split, tileScale
         );
         buffer.SetViewProjectionMatrices(viewMatrix, projectionMatrix);
         buffer.SetGlobalDepthBias(0f, light.slopeScaleBias);
@@ -276,6 +282,9 @@ public class Shadows
         int tileOffset = index * cascadeCount; // OFFSET NOT IN COORDINATES BUT IN INDEX OMG.....
         Vector3 ratios = settings.directional.CascadeRatios;
         float cullingFactor = Mathf.Max(0f, 0.8f - settings.directional.cascadeFade);
+        
+        float tileScale = 1f / split;
+        
         for (int i = 0; i < cascadeCount; i++)
         {
             cullingResults.ComputeDirectionalShadowMatricesAndCullingPrimitives(light.visibleLightIndex, i,
@@ -291,7 +300,7 @@ public class Shadows
             int tileIndex = tileOffset + i;
 
             var offset = SetTileViewport(tileIndex, split, tileSize);
-            dirShadowMatrices[tileIndex] = ConvertToAtlasMatrix(projectionMatrix * viewMatrix, offset, split);
+            dirShadowMatrices[tileIndex] = ConvertToAtlasMatrix(projectionMatrix * viewMatrix, offset, split, tileScale);
 
             buffer.SetViewProjectionMatrices(viewMatrix, projectionMatrix);
             buffer.SetGlobalDepthBias(0f, light.slopeScaleBias);
@@ -360,7 +369,7 @@ public class Shadows
         return offset;
     }
 
-    Matrix4x4 ConvertToAtlasMatrix(Matrix4x4 m, Vector2 offset, int split)
+    Matrix4x4 ConvertToAtlasMatrix(Matrix4x4 m, Vector2 offset, int split, float scale)
     {
         if (SystemInfo.usesReversedZBuffer)
         {
@@ -369,8 +378,6 @@ public class Shadows
             m.m22 = -m.m22;
             m.m23 = -m.m23;
         }
-
-        float scale = 1f / split;
 
         Matrix4x4 M_ClipToUV = new Matrix4x4()
         {
