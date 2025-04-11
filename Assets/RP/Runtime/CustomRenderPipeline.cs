@@ -8,15 +8,18 @@ public partial class CustomRenderPipeline : RenderPipeline
 
     bool useGPUInstancing, useLightsPerObject;
     ShadowSettings shadowSettings;
+    PostFXSettings postFXSettings;
 
     public CustomRenderPipeline(bool useGPUInstancing, bool useSRPBatcher,
-        bool useLightsPerObject, ShadowSettings shadowSettings)
+        bool useLightsPerObject, ShadowSettings shadowSettings,
+        PostFXSettings postFXSettings)
     {
         this.useGPUInstancing = useGPUInstancing;
         GraphicsSettings.useScriptableRenderPipelineBatching = useSRPBatcher;
         GraphicsSettings.lightsUseLinearIntensity = true;
         this.shadowSettings = shadowSettings;
         this.useLightsPerObject = useLightsPerObject;
+        this.postFXSettings = postFXSettings;
         
         InitializeForEditor();
     }
@@ -30,7 +33,7 @@ public partial class CustomRenderPipeline : RenderPipeline
         for (int i = 0; i < cameras.Count; i++)
         {
             renderer.Render(context, cameras[i], useGPUInstancing,
-                useLightsPerObject, shadowSettings);
+                useLightsPerObject, shadowSettings, postFXSettings);
         }
     }
 }
