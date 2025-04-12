@@ -15,6 +15,7 @@ MonoBehaviour:
   useGPUInstancing: 1
   useSRPBatcher: 1
   useLightsPerObject: 1
+  allowHDR: 1
   shadows:
     directional:
       atlasSize: 2048

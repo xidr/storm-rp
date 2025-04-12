@@ -19,4 +19,7 @@ MonoBehaviour:
     bicubicUpsampling: 1
     threshold: 1
     thresholdKnee: 0.813
-    intensity: 1
+    intensity: 0.2
+    fadeFireflies: 1
+    mode: 0
+    scatter: 0.735

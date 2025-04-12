@@ -10,13 +10,16 @@ public class CustomRenderPipelineAsset : RenderPipelineAsset
         useLightsPerObject = true;
     
     [SerializeField]
+    bool allowHDR = true;
+    
+    [SerializeField]
     ShadowSettings shadows = default;
     
     [SerializeField]
     PostFXSettings postFXSettings = default;
     
     protected override RenderPipeline CreatePipeline () {
-        return new CustomRenderPipeline(useGPUInstancing, useSRPBatcher, 
+        return new CustomRenderPipeline(allowHDR, useGPUInstancing, useSRPBatcher, 
             useLightsPerObject, shadows, postFXSettings);
     }
 }
