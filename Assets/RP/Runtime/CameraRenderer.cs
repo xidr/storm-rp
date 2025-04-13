@@ -7,6 +7,7 @@ public partial class CameraRenderer
         litShaderTagId = new ShaderTagId("CustomLit");
 
     static int frameBufferId = Shader.PropertyToID("_CameraFrameBuffer");
+    static CameraSettings defaultCameraSettings = new CameraSettings();
     
     const string bufferName = "Render Camera";
 
@@ -27,6 +28,12 @@ public partial class CameraRenderer
     {
         this.context = context;
         this.camera = camera;
+        
+        
+        var crpCamera = camera.GetComponent<CustomRenderPipelineCamera>();
+        CameraSettings cameraSettings =
+            crpCamera ? crpCamera.Settings : defaultCameraSettings;
+        
         PrepareBuffer();
         PrepareForSceneWindow();
         if (!Cull(shadowSettings.maxDistance))
@@ -39,7 +46,8 @@ public partial class CameraRenderer
         buffer.BeginSample(SampleName);
         ExecuteBuffer();
         lighting.Setup(context, cullingResults, shadowSettings, useLightsPerObject);
-        postFXStack.Setup(context, camera, postFXSettings, useHDR, colorLUTResolution);
+        postFXStack.Setup(context, camera, postFXSettings, useHDR, colorLUTResolution,
+            cameraSettings.finalBlendMode);
         buffer.EndSample(SampleName);
         Setup();
         DrawVisibleGeometry(useGPUInstancing, useLightsPerObject);

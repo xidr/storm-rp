@@ -28,7 +28,7 @@ Shader "ReigniteRP/Unlit"
 
         Pass
         {
-            Blend [_SrcBlend] [_DstBlend]
+            Blend [_SrcBlend] [_DstBlend], One OneMinusSrcAlpha
             BlendOp [_BlendOp]
             ZWrite [_ZWrite]
             

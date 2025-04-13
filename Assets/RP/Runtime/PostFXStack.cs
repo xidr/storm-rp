@@ -3,7 +3,7 @@ using UnityEngine.Rendering;
 using static PostFXSettings;
 
 public partial class PostFXStack {
-
+    static Rect fullViewRect = new Rect(0f, 0f, 1f, 1f);
     const string bufferName = "Post FX";
     int bloomBucibicUpsamplingId = Shader.PropertyToID("_BloomBicubicUpsampling"),
         bloomIntensityId = Shader.PropertyToID("_BloomIntensity"),
@@ -30,9 +30,15 @@ public partial class PostFXStack {
         smhHighlightsId = Shader.PropertyToID("_SMHHighlights"),
         smhRangeId = Shader.PropertyToID("_SMHRange");
     
+    int
+        finalSrcBlendId = Shader.PropertyToID("_FinalSrcBlend"),
+        finalDstBlendId = Shader.PropertyToID("_FinalDstBlend");
+    
     const int maxBloomPyramidLevels = 16;
     
     int bloomPyramidId;
+    
+    CameraSettings.FinalBlendMode finalBlendMode;
     
     public bool IsActive => settings != null;
 
@@ -59,8 +65,10 @@ public partial class PostFXStack {
 
     public void Setup (
         ScriptableRenderContext context, Camera camera, PostFXSettings settings,
-        bool useHDR, int colorLUTResolution
+        bool useHDR, int colorLUTResolution, CameraSettings.FinalBlendMode finalBlendMode
     ) {
+        this.finalBlendMode = finalBlendMode;
+        
         this.colorLUTResolution = colorLUTResolution;
         this.useHDR = useHDR;
         this.context = context;
@@ -93,6 +101,24 @@ public partial class PostFXStack {
         buffer.DrawProcedural(
             Matrix4x4.identity, settings.Material, (int)pass,
             MeshTopology.Triangles, 3
+        );
+    }
+    
+    void DrawFinal (RenderTargetIdentifier from) {
+        buffer.SetGlobalFloat(finalSrcBlendId, (float)finalBlendMode.source);
+        buffer.SetGlobalFloat(finalDstBlendId, (float)finalBlendMode.destination);
+        
+        buffer.SetGlobalTexture(fxSourceId, from);
+        buffer.SetRenderTarget(
+            BuiltinRenderTextureType.CameraTarget,
+            finalBlendMode.destination == BlendMode.Zero && camera.rect == fullViewRect ?
+                RenderBufferLoadAction.DontCare : RenderBufferLoadAction.Load,
+            RenderBufferStoreAction.Store
+        );
+        buffer.SetViewport(camera.pixelRect);
+        buffer.DrawProcedural(
+            Matrix4x4.identity, settings.Material,
+            (int)Pass.Final, MeshTopology.Triangles, 3
         );
     }
     
@@ -297,7 +323,7 @@ public partial class PostFXStack {
         buffer.SetGlobalVector(colorGradingLUTParametersId,
             new Vector4(1f / lutWidth, 1f / lutHeight, lutHeight - 1f)
         );
-        Draw(sourceId, BuiltinRenderTextureType.CameraTarget, Pass.Final);
+        DrawFinal(sourceId);
         buffer.ReleaseTemporaryRT(colorGradingLUTId);
     }
 }
