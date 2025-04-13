@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEditor;
 
+#if UNITY_EDITOR
+
 [CanEditMultipleObjects]
 [CustomEditorForRenderPipeline(typeof(Light), typeof(CustomRenderPipelineAsset))]
 public class CustomLightEditor : LightEditor
@@ -19,3 +21,5 @@ public class CustomLightEditor : LightEditor
     }
     
 }
+
+#endif

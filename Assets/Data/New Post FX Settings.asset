@@ -23,3 +23,5 @@ MonoBehaviour:
     fadeFireflies: 1
     mode: 0
     scatter: 0.735
+  toneMapping:
+    mode: 0
