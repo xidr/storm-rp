@@ -34,6 +34,11 @@ public partial class CameraRenderer
         CameraSettings cameraSettings =
             crpCamera ? crpCamera.Settings : defaultCameraSettings;
         
+        
+        if (cameraSettings.overridePostFX) {
+            postFXSettings = cameraSettings.postFXSettings;
+        } 
+        
         PrepareBuffer();
         PrepareForSceneWindow();
         if (!Cull(shadowSettings.maxDistance))
