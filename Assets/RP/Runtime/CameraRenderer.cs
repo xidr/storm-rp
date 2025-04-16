@@ -50,12 +50,14 @@ public partial class CameraRenderer
 
         buffer.BeginSample(SampleName);
         ExecuteBuffer();
-        lighting.Setup(context, cullingResults, shadowSettings, useLightsPerObject);
+        lighting.Setup(context, cullingResults, shadowSettings, useLightsPerObject,
+            cameraSettings.maskLights ? cameraSettings.renderingLayerMask : -1);
         postFXStack.Setup(context, camera, postFXSettings, useHDR, colorLUTResolution,
             cameraSettings.finalBlendMode);
         buffer.EndSample(SampleName);
         Setup();
-        DrawVisibleGeometry(useGPUInstancing, useLightsPerObject);
+        DrawVisibleGeometry(useGPUInstancing, useLightsPerObject,
+            cameraSettings.renderingLayerMask);
         DrawUnsupportedShaders();
         DrawGizmosBeforeFX();
         if (postFXStack.IsActive) {
@@ -105,7 +107,8 @@ public partial class CameraRenderer
         return false;
     }
 
-    void DrawVisibleGeometry(bool useGPUInstancing, bool useLightsPerObject)
+    void DrawVisibleGeometry(bool useGPUInstancing, bool useLightsPerObject,
+        int renderingLayerMask)
     {
         PerObjectData lightsPerObjectFlags = useLightsPerObject ?
             PerObjectData.LightData | PerObjectData.LightIndices :
@@ -123,7 +126,7 @@ public partial class CameraRenderer
         };
         drawingSettings.SetShaderPassName(1, litShaderTagId);
         
-        var filteringSettings = new FilteringSettings(RenderQueueRange.opaque);
+        var filteringSettings = new FilteringSettings(RenderQueueRange.opaque, renderingLayerMask: (uint)renderingLayerMask);
 
         context.DrawRenderers(cullingResults, ref drawingSettings, ref filteringSettings);
 

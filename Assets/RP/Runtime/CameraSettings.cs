@@ -18,4 +18,9 @@ public class CameraSettings {
     public bool overridePostFX = false;
 
     public PostFXSettings postFXSettings = default;
+    
+    [RenderingLayerMaskField]
+    public int renderingLayerMask = -1;
+    
+    public bool maskLights = false;
 }
