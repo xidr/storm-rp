@@ -1,4 +1,4 @@
-Shader "ReigniteRP/Unlit"
+Shader "ReigniteRP/Particles/Unlit"
 {
     Properties
     {
@@ -13,6 +13,9 @@ Shader "ReigniteRP/Unlit"
         _Cutoff ("Alpha Cutoff", Range(0.0, 1.0)) = 0.5
         
         [KeywordEnum(On, Clip, Dither, Off)] _Shadows ("Shadows", Float) = 0
+        
+        [Toggle(_VERTEX_COLORS)] _VertexColors ("Vertex Colors", Float) = 0
+        [Toggle(_FLIPBOOK_BLENDING)] _FlipbookBlending ("Flipbook Blending", Float) = 0
     }
     SubShader
     {
@@ -37,6 +40,8 @@ Shader "ReigniteRP/Unlit"
             #pragma multi_compile_instancing
             #pragma vertex UnlitPassVertex
             #pragma fragment UnlitPassFragment
+            #pragma shader_feature _VERTEX_COLORS
+            #pragma shader_feature _FLIPBOOK_BLENDING
             #include "UnlitPass.hlsl"
             ENDHLSL
         }
@@ -58,20 +63,7 @@ Shader "ReigniteRP/Unlit"
             ENDHLSL
         }
 
-		Pass {
-			Tags {
-				"LightMode" = "Meta"
-			}
 
-			Cull Off
-
-			HLSLPROGRAM
-			#pragma target 3.5
-			#pragma vertex MetaPassVertex
-			#pragma fragment MetaPassFragment
-			#include "MetaPass.hlsl"
-			ENDHLSL
-		}
     }
 
     CustomEditor "CustomShaderGUI"
