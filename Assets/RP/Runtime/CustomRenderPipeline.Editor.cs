@@ -7,15 +7,23 @@ public partial class CustomRenderPipeline {
 
     partial void InitializeForEditor ();
     
+    partial void DisposeForEditor ();
+    
 #if UNITY_EDITOR
 
     partial void InitializeForEditor () {
         Lightmapping.SetDelegate(lightsDelegate);
     }
     
+    protected void DisposeForEditor (bool disposing) {
+        // base.Dispose(disposing);
+        Lightmapping.ResetDelegate();
+    }
+    
     protected override void Dispose (bool disposing) {
         base.Dispose(disposing);
-        Lightmapping.ResetDelegate();
+        DisposeForEditor();
+        renderer.Dispose();
     }
     
     static Lightmapping.RequestLightsDelegate lightsDelegate =

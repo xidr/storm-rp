@@ -4,21 +4,23 @@ using UnityEngine.Rendering;
 
 public partial class CustomRenderPipeline : RenderPipeline
 {
-    CameraRenderer renderer = new CameraRenderer();
+    private CameraRenderer renderer;
 
     bool useGPUInstancing, useLightsPerObject;
-    bool allowHDR;
+    //bool allowHDR;
+    CameraBufferSettings cameraBufferSettings;
     ShadowSettings shadowSettings;
     PostFXSettings postFXSettings;
     
     int colorLUTResolution;
 
-    public CustomRenderPipeline(bool allowHDR, bool useGPUInstancing, bool useSRPBatcher,
+    public CustomRenderPipeline(CameraBufferSettings cameraBufferSettings, bool useGPUInstancing, bool useSRPBatcher,
         bool useLightsPerObject, ShadowSettings shadowSettings,
-        PostFXSettings postFXSettings, int colorLUTResolution)
+        PostFXSettings postFXSettings, int colorLUTResolution, Shader cameraRendererShader)
     {
         this.colorLUTResolution = colorLUTResolution;
-        this.allowHDR = allowHDR;
+        //this.allowHDR = allowHDR;
+        this.cameraBufferSettings = cameraBufferSettings;
         this.useGPUInstancing = useGPUInstancing;
         GraphicsSettings.useScriptableRenderPipelineBatching = useSRPBatcher;
         GraphicsSettings.lightsUseLinearIntensity = true;
@@ -27,6 +29,8 @@ public partial class CustomRenderPipeline : RenderPipeline
         this.postFXSettings = postFXSettings;
         
         InitializeForEditor();
+        
+        renderer = new CameraRenderer(cameraRendererShader);
     }
 
     protected override void Render(ScriptableRenderContext context, Camera[] cameras)
@@ -37,7 +41,7 @@ public partial class CustomRenderPipeline : RenderPipeline
     {
         for (int i = 0; i < cameras.Count; i++)
         {
-            renderer.Render(context, cameras[i], allowHDR, useGPUInstancing,
+            renderer.Render(context, cameras[i], cameraBufferSettings, useGPUInstancing,
                 useLightsPerObject, shadowSettings, postFXSettings, colorLUTResolution);
         }
     }
