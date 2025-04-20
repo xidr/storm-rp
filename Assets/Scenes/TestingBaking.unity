@@ -622,8 +622,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 926905647}
-  - {fileID: 462489523}
+  - {fileID: 1366327396}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &361767922
@@ -1159,7 +1158,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 289907613}
+  m_Father: {fileID: 1366327396}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!81 &462489524
 AudioListener:
@@ -1240,6 +1239,7 @@ MonoBehaviour:
     postFXSettings: {fileID: 11400000, guid: e4506d7c28a6dc7b1ba51b8876a8b348, type: 2}
     renderingLayerMask: -1
     maskLights: 1
+    copyColor: 1
     copyDepth: 1
 --- !u!1 &537055497
 GameObject:
@@ -6899,7 +6899,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 289907613}
+  m_Father: {fileID: 1366327396}
   m_LocalEulerAnglesHint: {x: 17.224, y: 136.23, z: -0.001}
 --- !u!81 &926905648
 AudioListener:
@@ -6980,6 +6980,7 @@ MonoBehaviour:
     postFXSettings: {fileID: 0}
     renderingLayerMask: 3
     maskLights: 1
+    copyColor: 1
     copyDepth: 1
 --- !u!1 &984372406
 GameObject:
@@ -12402,6 +12403,7 @@ MonoBehaviour:
     postFXSettings: {fileID: 11400000, guid: e4506d7c28a6dc7b1ba51b8876a8b348, type: 2}
     renderingLayerMask: -1
     maskLights: 0
+    copyColor: 1
     copyDepth: 1
 --- !u!1 &1107657592
 GameObject:
@@ -13254,12 +13256,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1366327395}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
+  m_Children:
+  - {fileID: 926905647}
+  - {fileID: 462489523}
+  m_Father: {fileID: 289907613}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1401219173
 GameObject:
@@ -14610,6 +14614,5 @@ SceneRoots:
   - {fileID: 1035000970}
   - {fileID: 1815691981}
   - {fileID: 289907613}
-  - {fileID: 1366327396}
   - {fileID: 541658659}
   - {fileID: 1046943876}
