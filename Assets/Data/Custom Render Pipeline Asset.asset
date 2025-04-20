@@ -21,6 +21,7 @@ MonoBehaviour:
     copyColorReflection: 1
     copyDepth: 1
     copyDepthReflection: 1
+    renderScale: 1
   shadows:
     directional:
       atlasSize: 2048
@@ -31,7 +32,7 @@ MonoBehaviour:
       cascadeRatio3: 0.5
       cascadeFade: 0.1
       cascadeBlend: 2
-    maxDistance: 10
+    maxDistance: 50
     distanceFade: 0.11
     other:
       atlasSize: 1024

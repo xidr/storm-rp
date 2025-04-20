@@ -38,6 +38,8 @@ public partial class PostFXStack {
     
     int bloomPyramidId;
     
+    Vector2Int bufferSize;
+    
     CameraSettings.FinalBlendMode finalBlendMode;
     
     public bool IsActive => settings != null;
@@ -64,9 +66,10 @@ public partial class PostFXStack {
     }
 
     public void Setup (
-        ScriptableRenderContext context, Camera camera, PostFXSettings settings,
+        ScriptableRenderContext context, Camera camera, Vector2Int bufferSize, PostFXSettings settings,
         bool useHDR, int colorLUTResolution, CameraSettings.FinalBlendMode finalBlendMode
     ) {
+        this.bufferSize = bufferSize;
         this.finalBlendMode = finalBlendMode;
         
         this.colorLUTResolution = colorLUTResolution;
@@ -143,7 +146,16 @@ public partial class PostFXStack {
     bool DoBloom (int sourceId) {
         // buffer.BeginSample("Bloom");
         PostFXSettings.BloomSettings bloom = settings.Bloom;
-        int width = camera.pixelWidth / 2, height = camera.pixelHeight / 2;
+        int width, height;
+        if (bloom.ignoreRenderScale) {
+            width = camera.pixelWidth / 2;
+            height = camera.pixelHeight / 2;
+        }
+        else {
+            width = bufferSize.x / 2;
+            height = bufferSize.y / 2;
+        }
+        
         
         if (
             bloom.maxIterations == 0 || bloom.intensity <= 0f ||
@@ -242,7 +254,7 @@ public partial class PostFXStack {
         buffer.SetGlobalTexture(fxSource2Id, sourceId);
         
         buffer.GetTemporaryRT(
-            bloomResultId, camera.pixelWidth, camera.pixelHeight, 0,
+            bloomResultId, bufferSize.x, bufferSize.y, 0,
             FilterMode.Bilinear, format
         );
         
