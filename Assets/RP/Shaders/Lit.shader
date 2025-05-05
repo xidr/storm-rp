@@ -40,6 +40,8 @@ Shader "ReigniteRP/Lit"
         
     	[HideInInspector] _MainTex("Texture for Lightmap", 2D) = "white" {}
 		[HideInInspector] _Color("Color for Lightmap", Color) = (0.5, 0.5, 0.5, 1.0)
+    	
+    	[Enum(UnityEngine.Rendering.CullMode)] _CullingMode ("Culling Mode", Float) = 2
     }
     SubShader
     {
@@ -58,6 +60,7 @@ Shader "ReigniteRP/Lit"
             Blend [_SrcBlend] [_DstBlend], One OneMinusSrcAlpha
             BlendOp [_BlendOp]
             ZWrite [_ZWrite]
+            Cull [_CullingMode]
             
             HLSLPROGRAM
             #pragma target 3.5
