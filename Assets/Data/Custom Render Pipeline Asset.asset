@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useGPUInstancing: 1
   useSRPBatcher: 1
-  useLightsPerObject: 1
+  useLightsPerObject: 0
   cameraBuffer:
     allowHDR: 1
     copyColor: 1
