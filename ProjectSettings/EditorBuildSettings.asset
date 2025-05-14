@@ -8,4 +8,5 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/TestingBaking.unity
     guid: 3bf8209c35a4e1093a0c63e1d3706170
-  m_configObjects: {}
+  m_configObjects:
+    com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 224d84f06f8d10b7b9799c69a6fc01e3, type: 3}

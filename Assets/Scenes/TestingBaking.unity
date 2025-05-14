@@ -37,7 +37,7 @@ RenderSettings:
   m_ReflectionBounces: 1
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
-  m_Sun: {fileID: 0}
+  m_Sun: {fileID: 370108470}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1121,7 +1121,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!108 &144712737
 Light:
   m_ObjectHideFlags: 0
@@ -1503,6 +1503,7 @@ GameObject:
   - component: {fileID: 217881460}
   - component: {fileID: 217881463}
   - component: {fileID: 217881462}
+  - component: {fileID: 217881464}
   m_Layer: 0
   m_Name: YourWorld
   m_TagString: Untagged
@@ -1584,6 +1585,30 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!114 &217881464
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 217881459}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e526ba78ad3b448e855457ff7b085d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  settings:
+    copyColor: 1
+    copyDepth: 1
+    renderingLayerMask: 1610612737
+    maskLights: 0
+    renderScaleMode: 0
+    renderScale: 1
+    overridePostFX: 0
+    postFXSettings: {fileID: 0}
+    finalBlendMode:
+      source: 1
+      destination: 0
 --- !u!1 &232769527
 GameObject:
   m_ObjectHideFlags: 0
@@ -1815,9 +1840,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 258171856}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 951ae9ed9d4849269ea8c8b911fe0d66, type: 3}
+  m_Script: {fileID: 11500000, guid: 2e526ba78ad3b448e855457ff7b085d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  settings:
+    copyColor: 1
+    copyDepth: 1
+    renderingLayerMask: 1
+    maskLights: 0
+    renderScaleMode: 0
+    renderScale: 1
+    overridePostFX: 0
+    postFXSettings: {fileID: 0}
+    finalBlendMode:
+      source: 1
+      destination: 0
 --- !u!1 &289907612
 GameObject:
   m_ObjectHideFlags: 0
@@ -2088,7 +2125,7 @@ GameObject:
   - component: {fileID: 349501705}
   - component: {fileID: 349501708}
   - component: {fileID: 349501707}
-  - component: {fileID: 349501706}
+  - component: {fileID: 349501709}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
@@ -2111,18 +2148,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1578252402}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &349501706
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 349501704}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 951ae9ed9d4849269ea8c8b911fe0d66, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!81 &349501707
 AudioListener:
   m_ObjectHideFlags: 0
@@ -2130,7 +2155,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 349501704}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!20 &349501708
 Camera:
   m_ObjectHideFlags: 0
@@ -2182,6 +2207,30 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!114 &349501709
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 349501704}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e526ba78ad3b448e855457ff7b085d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  settings:
+    copyColor: 1
+    copyDepth: 1
+    renderingLayerMask: 1610612737
+    maskLights: 0
+    renderScaleMode: 0
+    renderScale: 1
+    overridePostFX: 0
+    postFXSettings: {fileID: 0}
+    finalBlendMode:
+      source: 1
+      destination: 0
 --- !u!1 &370108468
 GameObject:
   m_ObjectHideFlags: 0
@@ -2953,6 +3002,7 @@ GameObject:
   - component: {fileID: 462489523}
   - component: {fileID: 462489525}
   - component: {fileID: 462489524}
+  - component: {fileID: 462489526}
   m_Layer: 0
   m_Name: Main Camera (3)
   m_TagString: MainCamera
@@ -2982,7 +3032,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 462489522}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!20 &462489525
 Camera:
   m_ObjectHideFlags: 0
@@ -3034,6 +3084,30 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!114 &462489526
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 462489522}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e526ba78ad3b448e855457ff7b085d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  settings:
+    copyColor: 1
+    copyDepth: 1
+    renderingLayerMask: -1
+    maskLights: 0
+    renderScaleMode: 0
+    renderScale: 1
+    overridePostFX: 1
+    postFXSettings: {fileID: 11400000, guid: 7701d342df2b13f069ee3f4d3b22167b, type: 2}
+    finalBlendMode:
+      source: 1
+      destination: 0
 --- !u!1 &470946721
 GameObject:
   m_ObjectHideFlags: 0
@@ -8086,7 +8160,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 546158611}
-  - component: {fileID: 546158610}
+  - component: {fileID: 546158612}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -8094,23 +8168,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &546158610
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 546158609}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eb7fc34c73f048808512f31c98054fb4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  acceleration: 50
-  accSprintMultiplier: 4
-  lookSensitivity: 1
-  dampingCoefficient: 5
-  focusOnEnable: 1
 --- !u!4 &546158611
 Transform:
   m_ObjectHideFlags: 0
@@ -8128,6 +8185,21 @@ Transform:
   - {fileID: 1578252402}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 4.43, y: 143.186, z: -0.022}
+--- !u!114 &546158612
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 546158609}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5178fb2960a24d3b80ae97e029350905, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _inputReader: {fileID: 11400000, guid: 7fab6ca2fa1a3b866bc32ff2c26fc956, type: 2}
+  m_mouseSensitivity: 0.1
+  m_maxSpeed: 5
 --- !u!1001 &550536589
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8913,7 +8985,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 765499053}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
   m_Name: 
@@ -8934,7 +9006,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.6603774, g: 0.6603774, b: 0.6603774, a: 0.39607844}
+  m_Color: {r: 0.6603774, g: 0.6603774, b: 0.6603774, a: 0.105882354}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -8993,10 +9065,10 @@ RectTransform:
   - {fileID: 1212353939}
   m_Father: {fileID: 1063598916}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0}
-  m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -239.07874, y: 165.9769}
-  m_SizeDelta: {x: 478.1575, y: 331.9538}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 254, y: 165.9769}
+  m_SizeDelta: {x: 478.15747, y: 331.9538}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &799496600
 MonoBehaviour:
@@ -9476,6 +9548,7 @@ GameObject:
   - component: {fileID: 926905647}
   - component: {fileID: 926905649}
   - component: {fileID: 926905648}
+  - component: {fileID: 926905650}
   m_Layer: 0
   m_Name: Main Camera (2)
   m_TagString: MainCamera
@@ -9505,7 +9578,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 926905646}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!20 &926905649
 Camera:
   m_ObjectHideFlags: 0
@@ -9557,6 +9630,30 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!114 &926905650
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 926905646}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e526ba78ad3b448e855457ff7b085d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  settings:
+    copyColor: 1
+    copyDepth: 1
+    renderingLayerMask: 1610612737
+    maskLights: 0
+    renderScaleMode: 0
+    renderScale: 1
+    overridePostFX: 0
+    postFXSettings: {fileID: 0}
+    finalBlendMode:
+      source: 1
+      destination: 0
 --- !u!1 &951470636
 GameObject:
   m_ObjectHideFlags: 0
@@ -20446,6 +20543,7 @@ GameObject:
   - component: {fileID: 1091137240}
   - component: {fileID: 1091137239}
   - component: {fileID: 1091137238}
+  - component: {fileID: 1091137241}
   m_Layer: 0
   m_Name: Plane
   m_TagString: Untagged
@@ -20540,6 +20638,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1091137236}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1091137241
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1091137236}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a3d40848ee7444db355f846cc2506bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _targetTransform: {fileID: 546158611}
 --- !u!1 &1110930788
 GameObject:
   m_ObjectHideFlags: 0
@@ -21077,7 +21188,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.6603774, g: 0.6603774, b: 0.6603774, a: 0.39607844}
+  m_Color: {r: 0.6603774, g: 0.6603774, b: 0.6603774, a: 0.105882354}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -21109,7 +21220,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1212353938}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
   m_Name: 
@@ -21903,7 +22014,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1366327396
 Transform:
   m_ObjectHideFlags: 0
@@ -22580,7 +22691,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1578252402
 Transform:
   m_ObjectHideFlags: 0
@@ -22953,7 +23064,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -1.9998932, y: -130.57}
+  m_AnchoredPosition: {x: -1.9998779, y: -130.57}
   m_SizeDelta: {x: -53.468, y: -261.13}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1654147859
@@ -23619,6 +23730,7 @@ GameObject:
   - component: {fileID: 1843860063}
   - component: {fileID: 1843860066}
   - component: {fileID: 1843860065}
+  - component: {fileID: 1843860067}
   m_Layer: 0
   m_Name: TheirsWorld
   m_TagString: Untagged
@@ -23700,6 +23812,30 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!114 &1843860067
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1843860062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e526ba78ad3b448e855457ff7b085d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  settings:
+    copyColor: 1
+    copyDepth: 1
+    renderingLayerMask: 2147483643
+    maskLights: 0
+    renderScaleMode: 0
+    renderScale: 1
+    overridePostFX: 1
+    postFXSettings: {fileID: 11400000, guid: 7701d342df2b13f069ee3f4d3b22167b, type: 2}
+    finalBlendMode:
+      source: 1
+      destination: 0
 --- !u!1 &1863884329
 GameObject:
   m_ObjectHideFlags: 0
@@ -24263,7 +24399,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -1110, y: 165.9769}
+  m_AnchoredPosition: {x: -244, y: 165.9769}
   m_SizeDelta: {x: 478.1575, y: 331.9538}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2020886955
