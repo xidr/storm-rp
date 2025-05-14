@@ -7,21 +7,41 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private float m_mouseSensitivity = 5f;
     [SerializeField] private float m_maxSpeed = 5f;
+    [SerializeField] private float m_shiftspeedModifier = 3f;
 
+    [SerializeField] private GameObject UIRoot;
+    [SerializeField] private GameObject Split;
+    [SerializeField] private GameObject Main;
+    
     private Vector3 m_currentVelocity = Vector3.zero;
     private float rotY;
     private float rotX;
 
+    
 
     private void Start()
     {
         _inputReader.EnablePlayerActions();
+        _inputReader.One += InputReaderOnOne;
+        _inputReader.Two += InputReaderOnTwo;
+    }
+
+
+    private void InputReaderOnOne()
+    {
+        Split.SetActive(!Split.activeSelf);
+        Main.SetActive(!Main.activeSelf);
+    }
+    
+    private void InputReaderOnTwo()
+    {
+        UIRoot.SetActive(!UIRoot.activeSelf);
     }
 
     void Update()
     {
         if (_inputReader.rotateIsBeingPressed) {
-            Move(_inputReader.move, _inputReader.mouseDelta, 0, 0);
+            Move(_inputReader.move, _inputReader.mouseDelta, _inputReader.upDown);
             SetCursorStatus(CursorStatusTypes.Hidden);
         }
         else
@@ -30,7 +50,7 @@ public class PlayerController : MonoBehaviour
         }
     }
     
-    public void Move(Vector2 movementVector, Vector2 mousePosition2D, float moveUpDown, float inputSpeedSlow)
+    public void Move(Vector2 movementVector, Vector2 mousePosition2D, float moveUpDown)
     {
         // Debug.Log(mousePosition2D);
         Rect screenRect = new Rect(0, 0, Screen.width, Screen.height);
@@ -54,10 +74,10 @@ public class PlayerController : MonoBehaviour
         var newPos1 = transform.position + transform.forward * (movementVector.y * 100) + transform.right * movementVector.x * 100 + transform.up * (moveUpDown * 100);
 
         float speedModifier = 1;
-        // if (inputSpeedSlow != 0)
-        // {
-        //     speedModifier = (float)(inputSpeedSlow > 0 ? m_shiftspeedModifier : m_ctrlspeedModifier);
-        // }
+        if (_inputReader.speedUpIsBeingPressed)
+        {
+            speedModifier = (float)(m_shiftspeedModifier);
+        }
 
         var newPos = Vector3.SmoothDamp(transform.localPosition, newPos1, ref m_currentVelocity, 0.5f, m_maxSpeed * speedModifier);
         transform.localPosition = newPos;

@@ -8200,6 +8200,10 @@ MonoBehaviour:
   _inputReader: {fileID: 11400000, guid: 7fab6ca2fa1a3b866bc32ff2c26fc956, type: 2}
   m_mouseSensitivity: 0.1
   m_maxSpeed: 5
+  m_shiftspeedModifier: 3
+  UIRoot: {fileID: 1035000969}
+  Split: {fileID: 1366327395}
+  Main: {fileID: 1578252401}
 --- !u!1001 &550536589
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -20,7 +20,9 @@ public class InputReader : ScriptableObject, IInputReader, IGameplayActions
     public Vector2 mouseDelta => _inputActions.Gameplay.Delta.ReadValue<Vector2>();
     public Vector2 move => _inputActions.Gameplay.Move.ReadValue<Vector2>();
     public bool rotateIsBeingPressed => _inputActions.Gameplay.Rotate.inProgress;
-    
+    public bool speedUpIsBeingPressed => _inputActions.Gameplay.SpeedUp.inProgress;
+    public float upDown => _inputActions.Gameplay.UpDown.ReadValue<float>();
+
     NewActions _inputActions;
 
     
@@ -71,6 +73,16 @@ public class InputReader : ScriptableObject, IInputReader, IGameplayActions
     }
 
     public void OnMove(InputAction.CallbackContext context)
+    {
+        // throw new NotImplementedException();
+    }
+
+    public void OnSpeedUp(InputAction.CallbackContext context)
+    {
+        // throw new NotImplementedException();
+    }
+
+    public void OnUpDown(InputAction.CallbackContext context)
     {
         // throw new NotImplementedException();
     }

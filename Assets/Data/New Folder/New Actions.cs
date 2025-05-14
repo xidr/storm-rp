@@ -135,6 +135,24 @@ public partial class @NewActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""SpeedUp"",
+                    ""type"": ""Button"",
+                    ""id"": ""77aff64b-5722-4bd8-8e2a-f5934c28fc3b"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""UpDown"",
+                    ""type"": ""Value"",
+                    ""id"": ""6c348b24-89ae-41cd-b352-83ac64d1d2ba"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -179,17 +197,6 @@ public partial class @NewActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""2"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""8662e8f1-64d7-4aec-b890-c2106737adc8"",
-                    ""path"": """",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -247,6 +254,50 @@ public partial class @NewActions: IInputActionCollection2, IDisposable
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""416420db-54f6-45c1-9ed3-4a01431b1a5b"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SpeedUp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""42d76bb1-a9c2-45f5-a958-b64d733d7d6f"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""UpDown"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""35e872ac-4f8c-4fa8-a0ce-2771c5f5aaa4"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""UpDown"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""e02f9dc9-a07f-4af1-9946-2cb5c9fc6e57"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""UpDown"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -260,6 +311,8 @@ public partial class @NewActions: IInputActionCollection2, IDisposable
         m_Gameplay__1 = m_Gameplay.FindAction("1", throwIfNotFound: true);
         m_Gameplay__2 = m_Gameplay.FindAction("2", throwIfNotFound: true);
         m_Gameplay_Move = m_Gameplay.FindAction("Move", throwIfNotFound: true);
+        m_Gameplay_SpeedUp = m_Gameplay.FindAction("SpeedUp", throwIfNotFound: true);
+        m_Gameplay_UpDown = m_Gameplay.FindAction("UpDown", throwIfNotFound: true);
     }
 
     ~@NewActions()
@@ -345,6 +398,8 @@ public partial class @NewActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay__1;
     private readonly InputAction m_Gameplay__2;
     private readonly InputAction m_Gameplay_Move;
+    private readonly InputAction m_Gameplay_SpeedUp;
+    private readonly InputAction m_Gameplay_UpDown;
     /// <summary>
     /// Provides access to input actions defined in input action map "Gameplay".
     /// </summary>
@@ -376,6 +431,14 @@ public partial class @NewActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Gameplay/Move".
         /// </summary>
         public InputAction @Move => m_Wrapper.m_Gameplay_Move;
+        /// <summary>
+        /// Provides access to the underlying input action "Gameplay/SpeedUp".
+        /// </summary>
+        public InputAction @SpeedUp => m_Wrapper.m_Gameplay_SpeedUp;
+        /// <summary>
+        /// Provides access to the underlying input action "Gameplay/UpDown".
+        /// </summary>
+        public InputAction @UpDown => m_Wrapper.m_Gameplay_UpDown;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -417,6 +480,12 @@ public partial class @NewActions: IInputActionCollection2, IDisposable
             @Move.started += instance.OnMove;
             @Move.performed += instance.OnMove;
             @Move.canceled += instance.OnMove;
+            @SpeedUp.started += instance.OnSpeedUp;
+            @SpeedUp.performed += instance.OnSpeedUp;
+            @SpeedUp.canceled += instance.OnSpeedUp;
+            @UpDown.started += instance.OnUpDown;
+            @UpDown.performed += instance.OnUpDown;
+            @UpDown.canceled += instance.OnUpDown;
         }
 
         /// <summary>
@@ -443,6 +512,12 @@ public partial class @NewActions: IInputActionCollection2, IDisposable
             @Move.started -= instance.OnMove;
             @Move.performed -= instance.OnMove;
             @Move.canceled -= instance.OnMove;
+            @SpeedUp.started -= instance.OnSpeedUp;
+            @SpeedUp.performed -= instance.OnSpeedUp;
+            @SpeedUp.canceled -= instance.OnSpeedUp;
+            @UpDown.started -= instance.OnUpDown;
+            @UpDown.performed -= instance.OnUpDown;
+            @UpDown.canceled -= instance.OnUpDown;
         }
 
         /// <summary>
@@ -518,5 +593,19 @@ public partial class @NewActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnMove(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "SpeedUp" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSpeedUp(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "UpDown" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnUpDown(InputAction.CallbackContext context);
     }
 }
