@@ -8,13 +8,14 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: UnlitParticleFlip
-  m_Shader: {fileID: 4800000, guid: 3e7a5d04f9eb4e659734ef42e38d57e7, type: 3}
+  m_Shader: {fileID: 4800000, guid: a5519ce13c80e46c988304672b42ecb7, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _DISTORTION
   - _FLIPBOOK_BLENDING
   - _NEAR_FADE
+  - _SHADOWS_DITHER
   - _SOFT_PARTICLES
   - _VERTEX_COLORS
   m_InvalidKeywords:
@@ -24,8 +25,7 @@ Material:
   m_DoubleSidedGI: 1
   m_CustomRenderQueue: 3000
   stringTagMap: {}
-  disabledShaderPasses:
-  - SHADOWCASTER
+  disabledShaderPasses: []
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
@@ -96,7 +96,7 @@ Material:
     - _NearFadeRange: 1
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _Shadows: 3
+    - _Shadows: 2
     - _SmoothnessTextureChannel: 0
     - _SoftParticles: 1
     - _SoftParticlesDistance: 1

@@ -1,43 +1,43 @@
-using System;
+﻿using System;
 using UnityEngine;
 using UnityEngine.Rendering;
 
 [Serializable]
 public class CameraSettings {
-	
-    [Serializable]
-    public struct FinalBlendMode {
 
-        public BlendMode source, destination;
-    }
+	public bool copyColor = true, copyDepth = true;
 
-    public FinalBlendMode finalBlendMode = new FinalBlendMode {
-        source = BlendMode.One,
-        destination = BlendMode.Zero
-    };
-    
-    public bool overridePostFX = false;
+	[RenderingLayerMaskField]
+	public int renderingLayerMask = -1;
 
-    public PostFXSettings postFXSettings = default;
-    
-    [RenderingLayerMaskField]
-    public int renderingLayerMask = -1;
-    
-    public bool maskLights = false;
-    
-    public bool copyColor = true, copyDepth = true;
-    
-    public enum RenderScaleMode { Inherit, Multiply, Override }
+	public bool maskLights = false;
 
-    public RenderScaleMode renderScaleMode = RenderScaleMode.Inherit;
+	public enum RenderScaleMode { Inherit, Multiply, Override }
 
-    [Range(0.1f, 2f)]
-    public float renderScale = 1f;
-    
-    public float GetRenderScale (float scale) {
-        return
-            renderScaleMode == RenderScaleMode.Inherit ? scale :
-            renderScaleMode == RenderScaleMode.Override ? renderScale :
-            scale * renderScale;
-    }
+	public RenderScaleMode renderScaleMode = RenderScaleMode.Inherit;
+
+	[Range(CameraRenderer.renderScaleMin, CameraRenderer.renderScaleMax)]
+	public float renderScale = 1f;
+
+	public bool overridePostFX = false;
+
+	public PostFXSettings postFXSettings = default;
+
+	[Serializable]
+	public struct FinalBlendMode {
+
+		public BlendMode source, destination;
+	}
+
+	public FinalBlendMode finalBlendMode = new FinalBlendMode {
+		source = BlendMode.One,
+		destination = BlendMode.Zero
+	};
+
+	public float GetRenderScale (float scale) {
+		return
+			renderScaleMode == RenderScaleMode.Inherit ? scale :
+			renderScaleMode == RenderScaleMode.Override ? renderScale :
+			scale * renderScale;
+	}
 }

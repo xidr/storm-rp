@@ -1,4 +1,4 @@
-Shader "Hidden/Custom RP/Post FX Stack" {
+﻿Shader "Hidden/Custom RP/Post FX Stack" {
 	
 	SubShader {
 		Cull Off
@@ -132,7 +132,7 @@ Shader "Hidden/Custom RP/Post FX Stack" {
 
 		Pass {
 			Name "Final"
-			
+
 			Blend [_FinalSrcBlend] [_FinalDstBlend]
 			
 			HLSLPROGRAM

@@ -1,4 +1,4 @@
-Shader "Custom RP/UI Custom Blending" {
+﻿Shader "Custom RP/UI Custom Blending" {
 	Properties {
 		[PerRendererData] _MainTex ("Sprite Texture", 2D) = "white" {}
 		_Color ("Tint", Color) = (1,1,1,1)
@@ -83,14 +83,8 @@ Shader "Custom RP/UI Custom Blending" {
 			}
 
 			float4 UIPassFragment (Varyings input) : SV_Target {
-
-				float4 a = tex2D(_MainTex, input.baseUV);
-
-				// if (a.a < 0.1f)
-					return a;
-				
 				float4 color =
-					(tex2D(_MainTex, input.baseUV));
+					(tex2D(_MainTex, input.baseUV) + _TextureSampleAdd) * input.color;
 				#if defined(UNITY_UI_CLIP_RECT)
 					color.a *= UnityGet2DClipping(input.positionUI, _ClipRect);
 				#endif

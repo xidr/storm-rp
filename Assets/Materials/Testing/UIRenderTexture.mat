@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: UIRenderTexture
-  m_Shader: {fileID: 4800000, guid: 7d3e6f9bce3e48e69db69501505e4c87, type: 3}
+  m_Shader: {fileID: 4800000, guid: b48dca569e9ce458f93a0db1813168d8, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
