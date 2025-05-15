@@ -16,6 +16,7 @@ public class InputReader : ScriptableObject, IInputReader, IGameplayActions
 {
     public event Action One;
     public event Action Two;
+    public event Action Rotation;
     
     public Vector2 mouseDelta => _inputActions.Gameplay.Delta.ReadValue<Vector2>();
     public Vector2 move => _inputActions.Gameplay.Move.ReadValue<Vector2>();
@@ -47,6 +48,10 @@ public class InputReader : ScriptableObject, IInputReader, IGameplayActions
     public void OnRotate(InputAction.CallbackContext context)
     {
         // throw new System.NotImplementedException();
+        if (context.phase == InputActionPhase.Started)
+        {
+            Rotation?.Invoke();
+        }
     }
 
     public void OnDelta(InputAction.CallbackContext context)

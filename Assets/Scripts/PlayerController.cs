@@ -24,6 +24,27 @@ public class PlayerController : MonoBehaviour
         _inputReader.EnablePlayerActions();
         _inputReader.One += InputReaderOnOne;
         _inputReader.Two += InputReaderOnTwo;
+        // _inputReader.Rotation += InputReaderOnRotation;
+        
+#if !UNITY_EDITOR && UNITY_WEBGL
+        // disable WebGLInput.stickyCursorLock so if the browser unlocks the cursor (with the ESC key) the cursor will unlock in Unity
+        WebGLInput.stickyCursorLock = false;
+#endif
+    }
+    
+    bool isLocked = false;
+    
+    private void InputReaderOnRotation()
+    {
+        if (isLocked)
+        {
+            SetCursorStatus(CursorStatusTypes.Normal);
+        }
+        else
+        {
+            SetCursorStatus(CursorStatusTypes.Hidden);
+        }
+        isLocked = !isLocked;
     }
 
 
@@ -31,22 +52,30 @@ public class PlayerController : MonoBehaviour
     {
         Split.SetActive(!Split.activeSelf);
         Main.SetActive(!Main.activeSelf);
+        
+        
     }
     
     private void InputReaderOnTwo()
     {
         UIRoot.SetActive(!UIRoot.activeSelf);
+
     }
 
     void Update()
     {
+        // Cursor.lockState = CursorLockMode.Confined;
+
+        // if (Cursor.visible == true)
+        //     isLocked  = false;
+        //
         if (_inputReader.rotateIsBeingPressed) {
             Move(_inputReader.move, _inputReader.mouseDelta, _inputReader.upDown);
-            SetCursorStatus(CursorStatusTypes.Hidden);
+            // SetCursorStatus(CursorStatusTypes.Hidden);
         }
         else
         {
-            SetCursorStatus(CursorStatusTypes.Normal);
+            // SetCursorStatus(CursorStatusTypes.Normal);
         }
     }
     
@@ -100,6 +129,7 @@ public class PlayerController : MonoBehaviour
                 break;
             }
         }
+        // WebGLInput.stickyCursorLock = false;
     }
     
     

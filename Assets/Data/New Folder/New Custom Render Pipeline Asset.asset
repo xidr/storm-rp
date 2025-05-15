@@ -19,7 +19,7 @@ MonoBehaviour:
     copyDepth: 1
     copyDepthReflection: 1
     renderScale: 1
-    bicubicRescaling: 0
+    bicubicRescaling: 2
   useDynamicBatching: 1
   useGPUInstancing: 1
   useSRPBatcher: 1
