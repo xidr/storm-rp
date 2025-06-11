@@ -35,8 +35,18 @@
 		[Enum(UnityEngine.Rendering.BlendMode)] _DstBlend ("Dst Blend", Float) = 0
 		[Enum(Off, 0, On, 1)] _ZWrite ("Z Write", Float) = 1
 
+		
+		[InRange] _StencilID ("Stencil ID", Range(0, 255)) = 0
+		[Enum(UnityEngine.Rendering.StencilOp)] _StencilOp ("Stencil Operation", Float) = 0
+		[Enum(UnityEngine.Rendering.CompareFunction)] _StencilCompare ("Stencil Comparison", Float) = 8
+		
+		
 		[HideInInspector] _MainTex("Texture for Lightmap", 2D) = "white" {}
 		[HideInInspector] _Color("Color for Lightmap", Color) = (0.5, 0.5, 0.5, 1.0)
+		
+		
+		
+		
 	}
 	
 	SubShader {
@@ -48,6 +58,15 @@
 		Pass {
 			Tags {
 				"LightMode" = "CustomLit"
+			}
+			
+			Stencil
+			{
+				ref [_StencilID]
+				Comp [_StencilCompare]
+				Pass [_StencilOp]
+				Fail [_StencilOp]
+				
 			}
 
 			Blend [_SrcBlend] [_DstBlend], One OneMinusSrcAlpha
